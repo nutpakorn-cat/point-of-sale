@@ -34,8 +34,12 @@
     const login = async () => {
         const loginResult = await dataService.login(username, password);
 
-        if (loginResult.data.status) {
-            localStorage.setItem('isLogin', true);
+        if (loginResult.data.token) {
+
+            console.log(loginResult.data.permission);
+            localStorage.setItem('token', loginResult.data.token);
+            localStorage.setItem('sellerId', loginResult.data.sellerId);
+            localStorage.setItem('permission', JSON.stringify(loginResult.data.permission));
             navigate('/manage', {replace: true});
         } else {
             isError = true;

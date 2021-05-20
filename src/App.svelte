@@ -10,9 +10,21 @@
 			<Navbar />
 			<ManageScreen />
 		</Route>
+		<Route path="/checkout">
+			<Navbar />
+			<CheckOutScreen />
+		</Route>
+		<Route path="/success">
+			<Navbar />
+			<SuccessScreen />
+		</Route>
 		<Route path="/history">
 			<Navbar />
 			<HistoryScreen />
+		</Route>
+		<Route path="/inventory">
+			<Navbar />
+			<InventoryScreen />
 		</Route>
 		<Route path="/member">
 			<Navbar />
@@ -43,11 +55,14 @@
 	import LoginScreen from './screens/LoginScreen.svelte';
 	import ManageScreen from './screens/ManageScreen.svelte';
 	import HistoryScreen from './screens/HistoryScreen.svelte';
+	import InventoryScreen from './screens/InventoryScreen.svelte';
 	import MemberScreen from './screens/MemberScreen.svelte';
 	import DiscountScreen from './screens/DiscountScreen.svelte';
 	import ReportScreen from './screens/ReportScreen.svelte';
 	import SettingScreen from './screens/SettingScreen.svelte';
 	import LogoutScreen from './screens/LogoutScreen.svelte';
+	import CheckOutScreen from './screens/CheckOutScreen.svelte';
+	import SuccessScreen from './screens/SuccessScreen.svelte';
 
 	import Navbar from './components/Navbar.svelte';
 </script>

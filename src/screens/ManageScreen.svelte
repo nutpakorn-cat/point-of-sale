@@ -1,106 +1,238 @@
-<div>
-    <div class="product-input">
-        <div class="container">
-            <div class="row text-center">
-                <div class="col-md-2" style="padding-top: 8px;">
-                    รหัสสินค้า
-                </div>
-                <div class="col-md-8">
-                    <input type="text" class="form-control" placeholder="รหัสสินค้า">
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-success">+ เพิ่ม</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container" style="margin-top: 50px;margin-bottom: 100px;">
-        <div class="card">
-            <div class="card-header">
-                ขายของ
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="image">
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-5" style="padding-left: 20px;padding-top: 35px;">
-                                                <p>น้ำยาอาบน้ำ</p>
-                                                <p>ราคา: 500.00 บาท</p>
-                                            </div>
-                                            <div class="col-md-4 text-center" style="padding-top: 35px;">
-                                                <button class="btn btn-danger" style="color: white; width: 50%">ลบ</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="image">
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-5" style="padding-left: 20px;padding-top: 35px;">
-                                                <p>น้ำยาอาบน้ำ</p>
-                                                <p>ราคา: 500.00 บาท</p>
-                                            </div>
-                                            <div class="col-md-4 text-center" style="padding-top: 35px;">
-                                                <button class="btn btn-danger" style="color: white; width: 50%">ลบ</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+{#if localStorage.getItem('permission') && JSON.parse(localStorage.getItem('permission')).sale}
+    <div>
+        <div class="product-input">
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-md-2" style="padding-top: 8px;">
+                        รหัสสินค้า
                     </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h3 class="text-center" style="margin-top: 20px;color: green;">ราคารวม: 100.00 บาท</h3>
-                                <h4 style="margin-top: 50px;">ระบบสมาชิก</h4>
-                                <hr>
-                                <div class="row text-center">
-                                    <div class="col-md-4">
-                                        <p style="margin-top: 7px;">สมาชิก</p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" placeholder="เบอร์โทรศัพท์สมาชิก">
-                                    </div>
-                                </div>
-                                <h4 style="margin-top: 30px;">รหัสส่วนลด</h4>
-                                <hr>
-                                <div class="row text-center">
-                                    <div class="col-md-4">
-                                        <p style="margin-top: 7px;">รหัสส่วนลด</p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" placeholder="รหัสส่วนลด">
-                                    </div>
-                                </div>
-                                <button class="btn btn-success" style="margin-top: 20px;width: 100%">ถัดไป</button>
-                            </div>
-                        </div>
+                    <div class="col-md-8">
+                        <input bind:value={productId} type="text" class="form-control responsive-size" placeholder="รหัสสินค้า">
+                    </div>
+                    <div class="col-md-2">
+                        <button on:click={addItem} class="btn btn-success responsive-size">+ เพิ่ม</button>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="container responsive-margin" style="margin-top: 50px;margin-bottom: 100px;">
+            <div class="card">
+                <div class="card-header">
+                    ขายของ
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="row">
+                                {#if !cartList.length}
+                                    <h3 style="color: grey;margin-top: 20px;" class="text-center">ตะกร้าสินค้าว่าง</h3>
+                                {/if}
+                                {#each cartList as product, i}
+                                    <div class="col-md-12">
+                                        <div class="card" style="margin-bottom: 30px;">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="image" style={'background-image: url(' + product.productImageURL + ')'}></div>
+                                                    </div>
+                                                    <div class="col-md-5" style="padding-left: 20px;padding-top: 35px;">
+                                                        <p>{product.productName}</p>
+                                                        <p>ราคา: {product.productPrice} บาท</p>
+                                                    </div>
+                                                    <div class="col-md-4 text-center" style="padding-top: 35px;">
+                                                        <button on:click={() => { deleteItem(i) }} class="btn btn-danger" style="color: white; width: 50%">ลบ</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {/each}
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="text-center" style="margin-top: 20px;color: green;">ราคารวม: {sum.toFixed(2)} บาท</h3>
+                                    <h4 style="margin-top: 50px;">ระบบสมาชิก</h4>
+                                    <hr>
+                                    {#if !(('userName') in userData)}
+                                        <div class="row text-center">
+                                            <div class="col-md-4">
+                                                <p style="margin-top: 7px;">สมาชิก</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input bind:value={userPhoneNumber} type="text" class="form-control" placeholder="เบอร์โทรศัพท์สมาชิก">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button on:click={checkUser} class="btn btn-success">ใช้</button>
+                                            </div>
+                                        </div>
+                                    {:else}
+                                        <div class="text-center">
+                                            <br>
+                                            <p>คุณ: {userData.userName} {userData.userSurname}</p>
+                                            <p>แต้ม: {userData.userPoint}</p>
+                                            {#if usePoint}
+                                                <p class="text-danger"><b>คุณเลือกที่จะ: ใช้แต้ม</b></p>
+                                            {:else}
+                                                <p>คุณเลือกที่จะ: ไม่ใช้แต้ม</p>
+                                            {/if}
+                                            <br>
+                                            <button on:click={clearUserData} class="btn btn-warning" style="color: white;">เปลี่ยน</button> 
+                                            {#if usePoint}
+                                                <button on:click={() => { usePoint = false }} class="btn btn-danger">ยกเลิกการใช้แต้ม</button>
+                                            {:else}
+                                                <button on:click={() => { usePoint = true }} class="btn btn-primary">ใช้แต้ม</button>
+                                            {/if}
+                                            
+                                        </div>
+                                    {/if}
+                                    <h4 style="margin-top: 30px;">รหัสส่วนลด</h4>
+                                    <hr>
+                                    <div class="row text-center">
+                                        <div class="col-md-4">
+                                            <p style="margin-top: 7px;">รหัสส่วนลด</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input bind:value={discountCode} type="text" class="form-control" placeholder="รหัสส่วนลด">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button on:click={addDiscount} class="btn btn-success">เพิ่ม</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center" style="margin-top: 10px;">
+                                        {#each discountList as discount, i}
+                                            {#if discount.discountType == 'money'}
+                                                <p style="margin-bottom: 5px;">{discount.discountCode}
+                                                <button  on:click={() => { discountList.splice(i, 1); discountList = discountList; }} class="btn btn-sm btn-danger">X</button></p>
+                                            {/if}
+                                        {/each}
+                                    </div>
+                                    
+                                    {#if !cartList.length}
+                                        <button class="btn btn-success" style="margin-top: 20px;width: 100%" disabled>ถัดไป</button>
+                                    {:else}
+                                        <button on:click={next} class="btn btn-success" style="margin-top: 20px;width: 100%">ถัดไป</button>
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+{/if}
 
 <script>
     import { onMount } from 'svelte';
-    import { Link } from "svelte-navigator";
+    import { Link, navigate } from "svelte-navigator";
 
     import dataService from './../dataService';
+
+    let cartList = [];
+    let userData = {};
+    let discountList = [];
+
+    let usePoint = false;
+
+    let sum = 0;
+
+    let productId = '';
+    let userPhoneNumber = '';
+    let discountCode = '';
+
+    onMount(() => {
+
+        cartList = (localStorage.getItem('isBack')) ?
+            JSON.parse(localStorage.getItem('cartList')) : [];
+
+        userData = (localStorage.getItem('isBack')) ?
+            JSON.parse(localStorage.getItem('userData')) : {};
+
+        discountList = (localStorage.getItem('isBack')) ?
+            JSON.parse(localStorage.getItem('discountList')) : [];
+
+        usePoint = (localStorage.getItem('isBack')) ?
+            JSON.parse(localStorage.getItem('usePoint')) : false;
+
+        if (localStorage.getItem('isBack')) {
+            cartList.forEach((eachProduct) => {
+                sum += eachProduct.productPrice;
+            });
+        }
+
+        localStorage.removeItem('isBack');
+
+    });
+
+    const addItem = async () => {
+        
+        const result = await dataService.getProductById(productId);
+
+        if (('error') in result.data)
+            return;
+
+        cartList.push(result.data);
+        sum += result.data.productPrice;
+        cartList = cartList;
+    }
+
+    const deleteItem = (i) => {
+        sum -= cartList[i].productPrice;
+        cartList.splice(i, 1);
+        cartList = cartList;
+    }
+
+    const checkUser = async () => {
+
+        const result = await dataService.getUserByUserPhoneNumber(userPhoneNumber);
+
+        if (('error') in result.data)
+            return;
+
+        userData = result.data;
+    }
+
+    const clearUserData = () => {
+        userData = {};
+    }
+
+    const addDiscount = async () => {
+
+        const result = await dataService.getDiscountByDiscountCode(discountCode);
+
+        if (('error') in result.data)
+            return;
+
+        discountList.push(result.data);
+        discountList = discountList
+    }
+
+    const next = async () => {
+        localStorage.removeItem('cartList');
+        localStorage.removeItem('userData');
+        localStorage.removeItem('discountList');
+        localStorage.removeItem('usePoint');
+        localStorage.removeItem('isBack');
+
+        const allOfAvailablePromotionDiscount = await dataService.getAllAvailablePromotionDiscount();
+
+        if (('error') in allOfAvailablePromotionDiscount)
+            return;
+
+        discountList = [
+            ...discountList,
+            ...allOfAvailablePromotionDiscount.data
+        ];
+
+        localStorage.setItem('cartList', JSON.stringify(cartList));
+        localStorage.setItem('userData', JSON.stringify(userData));
+        localStorage.setItem('discountList', JSON.stringify(discountList));
+        localStorage.setItem('usePoint', usePoint);
+
+        navigate('/checkout');
+    }
 
 </script>
