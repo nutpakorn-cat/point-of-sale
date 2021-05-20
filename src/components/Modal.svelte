@@ -7,6 +7,7 @@
                         <h5 class="modal-title">{modalTitle}</h5>
                     </div>
                     <div class="modal-body">
+                        {modalData}
                         {#if modalComponent == 'AddMember'}
                             AddMember
                         {:else if modalComponent == 'EditMember'}
@@ -31,6 +32,6 @@
     export let close;
     export let isShow;
     export let modalComponent;
-    export let modalProps;
+    export let modalData;
     
 </script>

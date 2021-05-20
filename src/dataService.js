@@ -336,3 +336,57 @@ module.exports.createReport = (startDate) => {
         }, 200);
     });
 }
+
+module.exports.getSeller = () => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve({
+                data: [
+                    {
+                        sellerId: 0,
+                        sellerName: 'ABC',
+                        sellerSurname: 'bcd',
+                        permission: {
+                            sale: true,
+                            history: true,
+                            member: true,
+                            inventory: true,
+                            discount: true,
+                            report: true,
+                            setting: true,
+                        },
+                    },
+                    {
+                        sellerId: 1,
+                        sellerName: 'AAA',
+                        sellerSurname: 'BBB',
+                        permission: {
+                            sale: true,
+                            setting: true,
+                        },
+                    }
+                ]
+            });
+        }, 200);
+    });
+}
+
+module.exports.deleteSeller = (sellerId) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve({
+                data: {}
+            });
+        }, 200);
+    });
+}
+
+module.exports.changePassword = (newPassword) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve({
+                data: {}
+            });
+        }, 200);
+    });
+}
