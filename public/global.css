@@ -1,0 +1,33 @@
+body {
+	font-family: "Prompt", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased !important;
+}
+
+:focus-visible {
+    outline: none;
+}
+
+p {
+    margin-bottom: 0px;
+}
+
+.image {
+    width: 100%;
+    height: 120px;
+    background-color: black;
+}
+
+.product-input {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 90px;
+    box-shadow: 0px 0px 20px -8px rgb(0 0 0 / 50%);
+    z-index: 99;
+    background-color: white;
+    padding-top: 26px;
+}
