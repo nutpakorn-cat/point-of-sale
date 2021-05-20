@@ -7,11 +7,22 @@
                         <h5 class="modal-title">{modalTitle}</h5>
                     </div>
                     <div class="modal-body">
-                        {modalData}
                         {#if modalComponent == 'AddMember'}
-                            AddMember
+                            <AddMember modalData={modalData} />
                         {:else if modalComponent == 'EditMember'}
-                            EditMember
+                            <EditMember modalData={modalData} />
+                        {:else if modalComponent == 'AddProduct'}
+                            <AddProduct modalData={modalData} />
+                        {:else if modalComponent == 'EditProduct'}
+                            <EditProduct modalData={modalData} />
+                        {:else if modalComponent == 'AddDiscount'}
+                            <AddDiscount modalData={modalData} />
+                        {:else if modalComponent == 'EditDiscount'}
+                            <EditDiscount modalData={modalData} />
+                        {:else if modalComponent == 'AddSeller'}
+                            <AddSeller modalData={modalData} />
+                        {:else if modalComponent == 'EditSeller'}
+                            <EditSeller modalData={modalData} />
                         {:else}
                             {@html modalBody}
                         {/if}
@@ -26,6 +37,15 @@
 {/if}
 
 <script>
+
+    import AddMember from './AddMember.svelte';
+    import EditMember from './EditMember.svelte';
+    import AddProduct from './AddProduct.svelte';
+    import EditProduct from './EditProduct.svelte';
+    import AddDiscount from './AddDiscount.svelte';
+    import EditDiscount from './EditDiscount.svelte';
+    import AddSeller from './AddSeller.svelte';
+    import EditSeller from './EditSeller.svelte';
 
     export let modalTitle;
     export let modalBody;

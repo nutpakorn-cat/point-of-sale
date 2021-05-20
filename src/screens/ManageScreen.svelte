@@ -10,7 +10,7 @@
                         <input bind:value={productId} type="text" class="form-control responsive-size" placeholder="รหัสสินค้า">
                     </div>
                     <div class="col-md-2">
-                        <button on:click={addItem} class="btn btn-success responsive-size">+ เพิ่ม</button>
+                        <button on:click={addItem} class="btn btn-success responsive-size" disabled={isAdding || productId == ''}>+ เพิ่ม</button>
                     </div>
                 </div>
             </div>
@@ -39,7 +39,17 @@
                                                         <p>{product.productName}</p>
                                                         <p>ราคา: {product.productPrice} บาท</p>
                                                     </div>
-                                                    <div class="col-md-4 text-center" style="padding-top: 35px;">
+                                                    <div class="col-md-2 text-center" style="padding-top: 35px;">
+                                                        <input on:change={() => { 
+                                                            if (cartList[i].quantity > product.productStock) 
+                                                                cartList[i].quantity = product.productStock 
+                                                            if (cartList[i].quantity <= 0) 
+                                                                cartList[i].quantity = 1
+
+                                                            calculateSum();
+                                                        }} max={product.productStock} min="1" bind:value={cartList[i].quantity} type="number" class="form-control" placeholder="จำนวน">
+                                                    </div>
+                                                    <div class="col-md-2 text-center" style="padding-top: 35px;">
                                                         <button on:click={() => { deleteItem(i) }} class="btn btn-danger" style="color: white; width: 50%">ลบ</button>
                                                     </div>
                                                 </div>
@@ -143,6 +153,8 @@
     let userPhoneNumber = '';
     let discountCode = '';
 
+    let isAdding = false;
+
     onMount(() => {
 
         cartList = (localStorage.getItem('isBack')) ?
@@ -158,31 +170,53 @@
             JSON.parse(localStorage.getItem('usePoint')) : false;
 
         if (localStorage.getItem('isBack')) {
-            cartList.forEach((eachProduct) => {
-                sum += eachProduct.productPrice;
-            });
+            calculateSum();
         }
 
         localStorage.removeItem('isBack');
 
     });
 
+    const calculateSum = () => {
+        sum = 0;
+        cartList.forEach((eachProduct) => {
+            sum += eachProduct.productPrice * eachProduct.quantity;
+        });
+    }
+
     const addItem = async () => {
         
+        isAdding = true;
         const result = await dataService.getProductById(productId);
+        isAdding = false;
 
         if (('error') in result.data)
             return;
 
-        cartList.push(result.data);
-        sum += result.data.productPrice;
+        for (let i = 0 ; i < cartList.length ; ++i) {
+            if (cartList[i].productId == productId) {
+
+                if (cartList[i].quantity < cartList[i].productStock)
+                    cartList[i].quantity += 1;
+
+                calculateSum();
+                    
+                return;
+            }
+        }
+
+        cartList.push({
+            ...result.data,
+            quantity: 1
+        });
         cartList = cartList;
+        calculateSum();
     }
 
     const deleteItem = (i) => {
-        sum -= cartList[i].productPrice;
         cartList.splice(i, 1);
         cartList = cartList;
+        calculateSum();
     }
 
     const checkUser = async () => {
@@ -206,6 +240,12 @@
         if (('error') in result.data)
             return;
 
+        for (let i = 0 ; i < discountList.length ; ++i) {
+            if (discountList[i].discountId == discountId) {
+                return;
+            }
+        }
+
         discountList.push(result.data);
         discountList = discountList
     }
@@ -222,10 +262,21 @@
         if (('error') in allOfAvailablePromotionDiscount)
             return;
 
-        discountList = [
-            ...discountList,
-            ...allOfAvailablePromotionDiscount.data
-        ];
+        let alreadyAddPromotion = false;
+
+        for (let i = 0 ; i < discountList.length ; ++i) {
+            if (discountList[i].discountType == 'promotion' || discountList[i].discountType == 'member-promotion') {
+                alreadyAddPromotion = true;
+                break;
+            }
+        }
+
+        if (!alreadyAddPromotion) {
+            discountList = [
+                ...discountList,
+                ...allOfAvailablePromotionDiscount.data
+            ];
+        }
 
         localStorage.setItem('cartList', JSON.stringify(cartList));
         localStorage.setItem('userData', JSON.stringify(userData));

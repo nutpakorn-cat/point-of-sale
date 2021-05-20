@@ -10,11 +10,12 @@
                         <p>รายการสั่งซื้อ</p>
                         <br>
                         {#each cartList as product}
-                            <p>{product.productName} {product.productPrice.toFixed(2)} บาท</p>
+                            <p>{product.productName} x{product.quantity} รวม {(product.quantity * product.productPrice).toFixed(2)} บาท</p>
                         {/each}
+                        <p>ยอดรวม: {sumPrice}</p>
                         <br>
 
-                        {#if userData.userId}
+                        {#if userData.userName != null}
                             <p>สมาชิก คุณ {userData.userName} {userData.userSurname}</p>
                             <p>จำนวนแต้ม: {userData.userPoint}</p>
                             <br>
@@ -25,11 +26,11 @@
                             {#each realDiscountList as discount, i}
                                 <p>{discount.title} x{discount.quantity} -{discount.totalDiscount.toFixed(2)} บาท</p>
                             {/each}
+                            ส่วนลดทั้งหมด {totalDiscount.toFixed(2)} บาท
+                            <br>
                             <br>
                         {/if}
-                        รวม {sumPrice.toFixed(2)} - {totalDiscount.toFixed(2)} = {(sumPrice - totalDiscount).toFixed(2)} บาท
-                        <br>
-                        ประหยัดไป {totalDiscount.toFixed(2)} บาท
+                        ยอดที่ต้องชำระรวม {((sumPrice - totalDiscount) < 0 ? 0 : (sumPrice - totalDiscount)).toFixed(2)} บาท
                         <br>
                         <br>
                         <button on:click={back} class="btn btn-warning" style="color: white;">&lt;- กลับไปแก้ไข</button>
@@ -64,7 +65,7 @@
         }
 
         cartList.forEach((each) => {
-            sumPrice += each.productPrice;
+            sumPrice += each.productPrice * each.quantity;
         });
 
         if (usePoint) {
@@ -89,7 +90,7 @@
 
                 cartList.forEach((each) => {
                     if (each.productId == eachDiscount.productId) {
-                        countAssociatedProduct++;     
+                        countAssociatedProduct += each.quantity;     
                     }
                 });
 

@@ -1,22 +1,3 @@
-// module.exports.testAPI = () => {
-//     return new Promise((resolve, reject) => {
-//         setTimeout(() => {
-//             resolve({
-//                 data: [
-//                     {
-//                         id: '1',
-//                         title: 'nutnoi'
-//                     },
-//                     {
-//                         id: '2',
-//                         title: 'bewnoinim'
-//                     }
-//                 ]
-//             });
-//         }, 200);
-//     });
-// }
-
 module.exports.login = (username, password) => {
     if (username == 'admin' && password == 'admin') {
         return new Promise((resolve, reject) => {
@@ -52,14 +33,31 @@ module.exports.login = (username, password) => {
 }
 
 module.exports.getProductById = (productId) => {
+
+    if (productId == '0')
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve({
+                    data: {
+                        productId: 0,
+                        productName: 'น้ำยาอาบน้ำ',
+                        productImageURL: 'https://lh3.googleusercontent.com/proxy/sKxJUaBzJeDDMdQ86UU8FeWioRAs2jjCcMGYdBJLIn3PMScg1j_Ps5SIv_mK4Hkin8_IyzRBllccBPvM91m-GoXb-VFxLAZV',
+                        productPrice: 500.05,
+                        productStock: 3
+                    }
+                });
+            }, 200);
+        });
+
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve({
                 data: {
-                    productId: 0,
-                    productName: 'น้ำยาอาบน้ำ',
+                    productId: 1,
+                    productName: 'น้ำ',
                     productImageURL: 'https://lh3.googleusercontent.com/proxy/sKxJUaBzJeDDMdQ86UU8FeWioRAs2jjCcMGYdBJLIn3PMScg1j_Ps5SIv_mK4Hkin8_IyzRBllccBPvM91m-GoXb-VFxLAZV',
-                    productPrice: 500.05
+                    productPrice: 100.65,
+                    productStock: 20
                 }
             });
         }, 200);
@@ -106,7 +104,7 @@ module.exports.getAllAvailablePromotionDiscount = (discountCode) => {
                         discountId: 0,
                         discountName: 'ส่วนลดเดือนพฤษภาคม',
                         discountType: 'promotion',
-                        productId: 1,
+                        productId: 0,
                         discountPrice: 100,
                     },
                 ]
