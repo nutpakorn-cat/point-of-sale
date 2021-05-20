@@ -46,6 +46,10 @@
     let startDate = '';
 
     onMount(() => {
+
+        if (!localStorage.getItem('loginData'))
+            navigate('/', {replace: true});
+
         fetchData();
     });
 

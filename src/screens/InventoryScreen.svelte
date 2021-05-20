@@ -99,6 +99,10 @@
     let isShowProduct = [];
 
     onMount(() => {
+        
+        if (!localStorage.getItem('loginData'))
+            navigate('/', {replace: true});
+
         fetchData();
     });
 

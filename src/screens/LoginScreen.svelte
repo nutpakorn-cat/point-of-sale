@@ -22,6 +22,7 @@
 </div>
 
 <script>
+    import { onMount } from 'svelte';
     import { navigate } from 'svelte-navigator';
     
     import dataService from './../dataService';
@@ -30,14 +31,17 @@
 
     let username = '';
     let password = '';
+
+    onMount(() => {
+        if (localStorage.getItem('loginData'))
+            navigate('/manage', {replace: true});
+    })
     
     const login = async () => {
         const loginResult = await dataService.login(username, password);
 
-        if (loginResult.data.token) {
-
-            console.log(loginResult.data.permission);
-            localStorage.setItem('token', loginResult.data.token);
+        if (loginResult.data.loginData) {
+            localStorage.setItem('loginData', loginResult.data.loginData);
             localStorage.setItem('sellerId', loginResult.data.sellerId);
             localStorage.setItem('permission', JSON.stringify(loginResult.data.permission));
             navigate('/manage', {replace: true});

@@ -78,6 +78,10 @@
     let endDate = '';
 
     onMount(() => {
+
+        if (!localStorage.getItem('loginData'))
+            navigate('/', {replace: true});
+
         fetchData();
     });
 

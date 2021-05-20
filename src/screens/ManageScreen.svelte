@@ -157,6 +157,9 @@
 
     onMount(() => {
 
+        if (!localStorage.getItem('loginData'))
+            navigate('/', {replace: true});
+
         cartList = (localStorage.getItem('isBack')) ?
             JSON.parse(localStorage.getItem('cartList')) : [];
 

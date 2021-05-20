@@ -128,6 +128,10 @@
     let isShow = true;
 
     onMount(() => {
+
+        if (!localStorage.getItem('loginData'))
+            navigate('/', {replace: true});
+
         if (!paymentData) {
             navigate('/', {replace: true});
         }

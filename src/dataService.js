@@ -1,31 +1,19 @@
 module.exports.login = (username, password) => {
-    if (username == 'admin' && password == 'admin') {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve({
-                    data: {
-                        token: 'abc',
-                        sellerId: 0,
-                        permission: {
-                            sale: true,
-                            history: true,
-                            member: true,
-                            inventory: true,
-                            discount: true,
-                            report: true,
-                            setting: true,
-                        }
-                    }
-                });
-            }, 200);
-        });
-    }
-
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve({
                 data: {
-                    status: false
+                    loginData: true,
+                    sellerId: 0,
+                    permission: {
+                        sale: true,
+                        history: true,
+                        member: true,
+                        inventory: true,
+                        discount: true,
+                        report: true,
+                        setting: true,
+                    }
                 }
             });
         }, 200);

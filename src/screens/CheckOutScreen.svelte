@@ -60,6 +60,9 @@
     
     onMount(async () => {
 
+        if (!localStorage.getItem('loginData'))
+            navigate('/', {replace: true});
+
         if (!cartList) {
             navigate('/', {replace: true});
         }
