@@ -300,7 +300,7 @@
 
         const allOfAvailablePromotionDiscount = await dataService.getAllAvailablePromotionDiscount();
 
-        if (allOfAvailablePromotionDiscount.length) {
+        if (allOfAvailablePromotionDiscount.data.length) {
 
             let alreadyAddPromotion = false;
 
