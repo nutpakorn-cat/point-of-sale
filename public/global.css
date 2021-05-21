@@ -66,9 +66,22 @@ p {
     background-color: rgba(0, 0, 0, .5);
     display: table;
     transition: opacity .3s ease;
-  }
+}
   
-  .modal-wrapper {
-    display: table-cell;
-    vertical-align: middle;
-  }
+.modal-wrapper {
+display: table-cell;
+vertical-align: middle;
+}
+
+.product-list {
+    width: 41%;
+    height: 189px;
+    position: fixed;
+    bottom: 109px;
+    background-color: white;
+    box-shadow: 0px 0px 20px -8px rgb(0 0 0 / 50%);
+    z-index: 9999;
+    left: 132px;
+    padding: 20px;
+    overflow-y: scroll;
+}

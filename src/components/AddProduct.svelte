@@ -4,7 +4,7 @@
         <div class="col-md-8"><input bind:value={productName} type="text" class="form-control" placeholder="ชื่อสินค้า"></div>
     </div>
     <div class="row" style="margin-bottom: 20px;">
-        <div class="col-md-4" style="padding-top: 8px;">รูป</div>
+        <div class="col-md-4" style="padding-top: 8px;">URL รูปภาพ</div>
         <div class="col-md-8"><input bind:value={productImageURL} type="text" class="form-control" placeholder="รูปภาพ"></div>
     </div>
     <div class="row" style="margin-bottom: 20px;">

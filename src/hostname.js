@@ -1,1 +1,1 @@
-module.exports = 'http://localhost:3000';
+module.exports = 'https://backend-589201509.herokuapp.com';

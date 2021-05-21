@@ -3,7 +3,7 @@
         <div class="container" style="margin-top: 50px;margin-bottom: 100px;">
             <div class="card">
                 <div class="card-header">
-                    ส่วนลด
+                    รายงาน
                 </div>
                 <div class="card-body">
                     <div class="container text-center">

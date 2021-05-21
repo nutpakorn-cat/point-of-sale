@@ -46,11 +46,11 @@
                         </div>
                         <div class="row" style="margin-bottom: 20px;">
                             <div class="col-md-4" style="padding-top: 8px;">รหัสผ่านใหม่</div>
-                            <div class="col-md-8"><input bind:value={newPassword} type="password" class="form-control" placeholder="รหัสผ่านเดิม"></div>
+                            <div class="col-md-8"><input bind:value={newPassword} type="password" class="form-control" placeholder="รหัสผ่านใหม่"></div>
                         </div>
                         <div class="row" style="margin-bottom: 20px;">
                             <div class="col-md-4" style="padding-top: 8px;">ยืนยันรหัสผ่านใหม่</div>
-                            <div class="col-md-8"><input bind:value={confirmNewPassword} type="password" class="form-control" placeholder="รหัสผ่านเดิม"></div>
+                            <div class="col-md-8"><input bind:value={confirmNewPassword} type="password" class="form-control" placeholder="ยืนยันรหัสผ่านใหม่"></div>
                         </div>
                         <button on:click={changePassword} style="width: 100%;" class="btn btn-success" disabled={(oldPassword == '' || newPassword == '' || newPassword != confirmNewPassword)}>เปลี่ยนรหัสผ่าน</button>
                     </div>

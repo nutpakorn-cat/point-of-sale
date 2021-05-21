@@ -1,4 +1,33 @@
 {#if localStorage.getItem('permission') && JSON.parse(localStorage.getItem('permission')).sale}
+    {#if focusInput}
+        <div class="product-list">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4"></div>
+                <div class="col-md-4 text-right"><button on:click={() => { focusInput = false; }} type="button" class="btn-close ms-auto" data-bs-dismiss="alert" 
+                    style="margin-left: auto!important;
+                    display: block;"
+                aria-label="Close"></button></div>
+            </div>
+            {#if productList.length}
+                
+                {#each productList as product}
+                    <div class="row text-center">
+                        <div class="col-md-6">
+                            <div class="image" style={'background-image: url(' + product.productImageURL + ')'}></div>
+                        </div>
+                        <div class="col-md-6" style="padding-top: 10px;">
+                            <h5 style="margin-bottom: 10px;">{product.productName}</h5>
+                            <h6 style="margin-bottom: 10px;">{product.productPrice.toFixed(2)} บาท</h6>
+                            <button class="btn btn-primary" on:click={() => { productId = product.productId; addItem(); }}>+ ใส่ในตะกร้า</button>
+                        </div>
+                    </div>
+                    <br><br>
+                {/each}
+                
+            {/if}
+        </div>
+    {/if}
     <div>
         <div class="product-input">
             <div class="container">
@@ -7,7 +36,7 @@
                         รหัสสินค้า
                     </div>
                     <div class="col-md-8">
-                        <input bind:value={productId} type="text" class="form-control responsive-size" placeholder="รหัสสินค้า">
+                        <input on:focus={() => { focusInput = true; }} bind:value={productId} type="text" class="form-control responsive-size" placeholder="รหัสสินค้า">
                     </div>
                     <div class="col-md-2">
                         <button on:click={addItem} class="btn btn-success responsive-size" disabled={isAdding || productId == ''}>+ เพิ่ม</button>
@@ -143,6 +172,8 @@
 
     import dataService from './../dataService';
 
+    let productList = [];
+
     let cartList = [];
     let userData = {};
     let discountList = [];
@@ -157,7 +188,9 @@
 
     let isAdding = false;
 
-    onMount(() => {
+    let focusInput = false;
+
+    onMount(async () => {
 
         if (!localStorage.getItem('loginData'))
             navigate('/', {replace: true});
@@ -180,6 +213,8 @@
 
         localStorage.removeItem('isBack');
 
+        const productResult = await dataService.getAllProduct();
+        productList = productResult.data;
     });
 
     const calculateSum = () => {
@@ -265,23 +300,23 @@
 
         const allOfAvailablePromotionDiscount = await dataService.getAllAvailablePromotionDiscount();
 
-        if (('error') in allOfAvailablePromotionDiscount)
-            return;
+        if (allOfAvailablePromotionDiscount.length) {
 
-        let alreadyAddPromotion = false;
+            let alreadyAddPromotion = false;
 
-        for (let i = 0 ; i < discountList.length ; ++i) {
-            if (discountList[i].discountType == 'promotion' || discountList[i].discountType == 'member-promotion') {
-                alreadyAddPromotion = true;
-                break;
+            for (let i = 0 ; i < discountList.length ; ++i) {
+                if (discountList[i].discountType == 'promotion' || discountList[i].discountType == 'member-promotion') {
+                    alreadyAddPromotion = true;
+                    break;
+                }
             }
-        }
 
-        if (!alreadyAddPromotion) {
-            discountList = [
-                ...discountList,
-                ...allOfAvailablePromotionDiscount.data
-            ];
+            if (!alreadyAddPromotion) {
+                discountList = [
+                    ...discountList,
+                    ...allOfAvailablePromotionDiscount.data
+                ];
+            }
         }
 
         localStorage.setItem('cartList', JSON.stringify(cartList));
