@@ -40,7 +40,6 @@
                         {#if productList}
                             <table class="table table-striped table-hover text-center table-bordered" style="margin-top: 50px;">
                                 <thead>
-                                    <th>#</th>
                                     <th>Barcode</th>
                                     <th>รูปภาพ</th>
                                     <th>ชื่อสินค้า</th>
@@ -58,9 +57,8 @@
                                             modalData={product.productId}
                                         />
                                         <tr>
-                                            <td>{i+1}</td>
-                                            <td>{product.productBarCode}</td>
-                                            <td><img src={product.productImage} width="200"></td>
+                                            <td>{product.productId}</td>
+                                            <td><img src={product.productImageURL} width="200"></td>
                                             <td>{product.productName}</td>
                                             <td>{product.productPrice}</td>
                                             <td>{product.productStock}</td>
@@ -78,6 +76,8 @@
             </div>
         </div>
     </div>
+{:else}
+    <h3 class="text-center" style="margin-top: 50px;">บัญชีของคุณไม่มีสิทธิ์ใช้งานในส่วนนี้</h3>
 {/if}
 
 <script>
@@ -107,6 +107,12 @@
     });
 
     const fetchData = async () => {
+
+        if (startDate == '')
+            startDate = '1-1-1';
+        
+        if (endDate == '')
+            endDate = '10000-1-1';
 
         const result = await dataService.getProductByDateAndQuery(startDate, endDate, query);
 

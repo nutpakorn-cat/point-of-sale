@@ -41,7 +41,7 @@
                                         />
                                         <tr>
                                             <td>{i+1}</td>
-                                            <td>{payment.paymentTime}</td>
+                                            <td>{dateFormat(payment.paymentTime.split('.')[0], 'h:MM:ss TT')}</td>
                                             <td>{payment.paymentUserName} {payment.paymentUserSurname}</td>
                                             <td>{payment.sellerName} {payment.sellerSurname}</td>
                                             <td><button on:click={() => { isShow[i] = true; }} class="btn btn-primary">ดู</button></td>
@@ -60,6 +60,8 @@
             </div>
         </div>
     </div>
+{:else}
+    <h3 class="text-center" style="margin-top: 50px;">บัญชีของคุณไม่มีสิทธิ์ใช้งานในส่วนนี้</h3>
 {/if}
 
 <script>
@@ -68,6 +70,8 @@
     import Modal from '../components/Modal.svelte';
 
     import dataService from './../dataService';
+
+    import dateFormat from 'dateformat';
 
     let paymentList = [];
     let isShow = [];
@@ -86,6 +90,13 @@
     });
 
     const fetchData = async () => {
+
+        if (startDate == '')
+            startDate = '1-1-1';
+        
+        if (endDate == '')
+            endDate = '10000-1-1';
+
         const result = await dataService.getPaymentByDate(startDate, endDate);
 
         if (('error') in result.data)
@@ -93,6 +104,7 @@
 
         paymentList = result.data;
 
+        sum = 0;
         paymentList.forEach((each) => {
             sum += each.paymentTotalPrice;
         });

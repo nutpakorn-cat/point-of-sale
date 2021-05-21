@@ -16,20 +16,6 @@
                         />
                     </div>
                     <div class="container">
-                        <div class="row text-center">
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-4" style="padding-top: 8px;">เริ่มต้นวันที่</div>
-                                    <div class="col-md-8"><input on:change={fetchData} bind:value={startDate} type="date" class="form-control"></div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-4" style="padding-top: 8px;">สิ้นสุดวันที่</div>
-                                    <div class="col-md-8"><input on:change={fetchData} bind:value={endDate} type="date" class="form-control"></div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="row text-center" style="margin-top: 20px;">
                             <div class="col-md-2" style="padding-top: 8px;">ค้นหา</div>
                             <div class="col-md-8"><input on:change={fetchData} bind:value={query} type="text" class="form-control" placeholder="ชื่อ, นามสกุล หรือเบอร์โทรศัพท์ลูกค้า"></div>
@@ -76,6 +62,8 @@
             </div>
         </div>
     </div>
+{:else}
+    <h3 class="text-center" style="margin-top: 50px;">บัญชีของคุณไม่มีสิทธิ์ใช้งานในส่วนนี้</h3>
 {/if}
 
 <script>
@@ -88,13 +76,10 @@
 
     let userList = [];
 
-    let startDate = '';
-    let endDate = '';
     let query = '';
 
     let isShowEditMember = [];
     let isShowAddMember = false;
-    let isShowDelete = [];
 
     onMount(() => {
 
@@ -106,7 +91,7 @@
 
     const fetchData = async () => {
 
-        const result = await dataService.getUserByDateAndQuery(startDate, endDate, query);
+        const result = await dataService.getUserByQuery(query);
 
         if (('error') in result.data)
             return;

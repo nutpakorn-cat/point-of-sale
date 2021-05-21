@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Point of Sale</a>
+        <a class="navbar-brand" href="/">{storeName}</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -36,7 +36,18 @@
 </nav>
 
 <script>
+    
     import { Link } from "svelte-navigator";
+    import { onMount } from 'svelte';
+
+    import dataService from './../dataService';
+
+    let storeName = '';
+
+    onMount(async () => {
+        const result = await dataService.getPointDiscountRate();
+        storeName = result.data.storeName;
+    });
 
     const shouldActive = (path) => {
         return (location.href.includes(path)) ? 'nav-link active' : 'nav-link';

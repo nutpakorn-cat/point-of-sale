@@ -133,6 +133,8 @@
             </div>
         </div>
     </div>
+{:else}
+    <h3 class="text-center" style="margin-top: 50px;">บัญชีของคุณไม่มีสิทธิ์ใช้งานในส่วนนี้</h3>
 {/if}
 
 <script>
@@ -191,6 +193,7 @@
         
         isAdding = true;
         const result = await dataService.getProductById(productId);
+        console.log(result);
         isAdding = false;
 
         if (('error') in result.data)

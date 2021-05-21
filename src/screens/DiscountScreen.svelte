@@ -23,7 +23,6 @@
                                     <th>ชื่อส่วนลด</th>
                                     <th>รหัส</th>
                                     <th>ออกโดย</th>
-                                    <th>สถานะ</th>
                                     <th>จัดการ</th>
                                 </thead>
                                 <tbody>
@@ -40,8 +39,7 @@
                                             <td>{discount.discountName}</td>
                                             <td>{(discount.discountType == 'money') ? discount.discountCode : 'ไม่มี'}</td>
                                             <td>{discount.sellerName}</td>
-                                            <td>{(discount.discountStatus) ? 'ไม่สามารถใช้ได้แล้ว' : 'สามารถใช้ได้'}</td>
-                                            <td><button on:click={() => { isShowEditDiscount[i] = true }} class="btn btn-warning" style="color: white;">แก้ไข</button> <button on:click={() => {deleteDiscount(i)}} class="btn btn-danger">ลบ</button></td>
+                                            <td><button on:click={() => {deleteDiscount(i)}} class="btn btn-danger">ลบ</button></td>
                                         </tr>
                                     {/each}
                                 </tbody>
@@ -52,6 +50,8 @@
             </div>
         </div>
     </div>
+{:else}
+    <h3 class="text-center" style="margin-top: 50px;">บัญชีของคุณไม่มีสิทธิ์ใช้งานในส่วนนี้</h3>
 {/if}
 
 <script>

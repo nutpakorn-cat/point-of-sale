@@ -1,5 +1,5 @@
 <div>
-    <Modal modalTitle="Receipt" modalBody='<object data="pdf/test.pdf" type="application/pdf" width="100%" height="500px"></object>' isShow={isShow} close={() => {isShow = false;}}/>
+    <Modal modalTitle="Receipt" modalBody={'<object data="' + paymentData.paymentReceipt + '" type="application/pdf" width="100%" height="500px"></object>'} isShow={isShow} close={() => {isShow = false;}}/>
     {#if paymentData}
         <div class="container" style="margin-top: 50px;margin-bottom: 100px;">
             <div class="card">

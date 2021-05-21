@@ -18,22 +18,26 @@
                             </div>
                         </div>
                         <br>
-                        {#if ('reportId') in reportData}
-                            <button on:click={createReport} class="btn btn-primary">ออกรายงานอีกครั้ง</button>
-                            <br>
-                            <br>
-                            <object data={reportData.reportURL} type="application/pdf" width="100%" height="1000px">
-                                
-                            </object>
-                        {:else}
-                            <h2>ยังไม่มีรายงานในเดือนนี้</h2>
-                            <button on:click={createReport} class="btn btn-primary">ออกรายงานใหม่</button>
+                        {#if startDate != ''}
+                            {#if ('reportId') in reportData}
+                                <button on:click={createReport} class="btn btn-primary">ออกรายงานอีกครั้ง</button>
+                                <br>
+                                <br>
+                                <object data={reportData.reportURL} type="application/pdf" width="100%" height="1000px">
+                                    
+                                </object>
+                            {:else}
+                                <h2>ยังไม่มีรายงานในเดือนนี้</h2>
+                                <button on:click={createReport} class="btn btn-primary">ออกรายงานใหม่</button>
+                            {/if}
                         {/if}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+{:else}
+    <h3 class="text-center" style="margin-top: 50px;">บัญชีของคุณไม่มีสิทธิ์ใช้งานในส่วนนี้</h3>
 {/if}
 
 <script>
@@ -54,7 +58,12 @@
     });
 
     const fetchData = async () => {
+
+        if (startDate == '')
+            return;
+
         const result = await dataService.getReportByDate(startDate);
+        console.log(result);
 
         if (('error') in result.data)
             return;
@@ -63,7 +72,11 @@
     }
 
     const createReport = async () => {
-        await dataService.createReport(startDate);
+
+        if (startDate == '')
+            return;
+
+        await dataService.createReport(localStorage.getItem('sellerId'), startDate);
         await fetchData();
     }
 
